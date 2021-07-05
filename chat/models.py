@@ -4,7 +4,7 @@ from datetime import datetime
 # Create your models here.
 
 class Room(models.Model):
-    name = models.CharField()
+    name = models.CharField(max_length=10)
     datetime = models.DateTimeField(blank=True, default=datetime.now())
 
     def __str__(self) -> str:
