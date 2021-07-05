@@ -11,17 +11,13 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-from whitenoise.django import DjangoWhiteNoise
-from django.core.wsgi import get_wsgi_application
+
 import dj_database_url
 from decouple import config
-import os
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "djangochat.settings")
-application = get_wsgi_application()
-application = DjangoWhiteNoise(application)
 
 
 # Quick-start development settings - unsuitable for production
