@@ -1,0 +1,156 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: rgba(40, 165, 44, 0.397) !important;
+    font-family: 'Roboto', sans-serif
+}
+
+
+.adiv {
+    background: #04CB28;
+    font-size: 15px;
+    height: 46px;
+    font-weight: bold;
+}
+
+
+.chat {
+    display: flex;
+    flex-wrap: wrap;
+    border: none;
+    background: #E2FFE8;
+    font-size: 12px;
+    border-radius: 0px 10px 10px 10px;
+}
+
+
+.bg-white {
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid #E7E7E9;
+    font-size: 12px;
+    border-radius: 10px 0px 10px 10px;
+}
+
+.myvideo img {
+    border-radius: 20px
+}
+
+
+.form-control {
+    width: 100%;
+    height: 100%;
+    display: block;
+    box-sizing: border-box;
+    line-height: 1.5;
+    box-shadow:none;
+    font-size: 13px
+}
+
+.form-control::placeholder {
+    font-size: 10px;
+    color: #C4C4C4
+}
+.form-group{
+    display: inline;
+    flex: 3;
+}
+
+.rounded-button{
+    display: inline;
+    border-radius: 50%;
+    flex: 1;
+}
+
+.message-box{
+    display: flex;
+    flex-direction: row;
+    height: 40px;
+    
+}
+button{
+    min-height: 100%;
+    min-width: 100%;
+    border: 0;
+    background-color: #04CB28;
+    color: #E2FFE8;
+    font-weight: bold;
+    border-radius: 12px;
+}
+button:active{
+    background-color: #37e056;
+}
+
+button:focus{
+    outline: none !important;
+}
+
+input{
+    min-height: 100%;
+    min-width: 100%;
+    border: 1px solid #04CB28;
+}
+input:focus{
+    outline: none;
+}
+
+.chat-container{
+    margin-bottom: 50px;
+}
+
+.button-container{
+    background-color: #04CB28 !important;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding: 8px;
+    bottom: 0;
+    position: fixed;
+}
+.button-container > div{
+    display: inline;
+    flex: 2;
+}
+.button-container > div+div{
+    flex: 1;
+    max-height: 40px;
+    margin-left: 5px;
+}
+.button-container > div+div > button{
+    background-color: #25a53d;
+    border-radius: 50px;
+}
+.button-container > div+div > button:active{
+    background-color: #37e056;
+}
+
+.actual-time-left{
+    font-size: 10px;
+}
+
+.actual-time-right{
+    font-size: 10px;
+    text-align: right;
+}
+
+.actual-message-right{
+    justify-content: flex-end;
+}
+
+.actual-message-left{
+    justify-content: flex-start;
+}
+
+/* 
+@media only screen and (min-width: 768px) {
+    #submit-box{
+        display: none;
+    }
+  } */
