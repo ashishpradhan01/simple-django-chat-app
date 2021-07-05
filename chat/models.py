@@ -7,8 +7,8 @@ class Room(models.Model):
     name = models.CharField(max_length=10)
     datetime = models.DateTimeField(blank=True, default=datetime.now())
 
-    def __str__(self) -> str:
-        return "Room Id: {}".format(self.name)
+    # def __str__(self) -> str:
+    #     return "Room Id: {}".format(self.name)
 
 class Message(models.Model):
     username = models.CharField(max_length=10)
@@ -17,6 +17,6 @@ class Message(models.Model):
     date = models.DateTimeField(blank=True, default=datetime.now())
     createdAt = models.CharField(max_length=10, blank=True, default=str(datetime.now().strftime('%I:%M %p')))
 
-    def __str__(self) -> str:
-        return "user: {} | {} | at: {}".format(self.username, self.room, self.createdAt)
+    # def __str__(self) -> str:
+    #     return "user: {} | {} | at: {}".format(self.username, self.room, self.createdAt)
 
