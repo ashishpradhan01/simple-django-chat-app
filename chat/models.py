@@ -15,7 +15,7 @@ class Message(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='messages')
     message = models.TextField(max_length=255)
     date = models.DateTimeField(blank=True, default=datetime.now())
-    createdAt = models.CharField(max_length=10, blank=True, default=datetime.now().strftime('%I:%M %p'))
+    createdAt = models.CharField(max_length=10, blank=True, default=str(datetime.now().strftime('%I:%M %p')))
 
     def __str__(self) -> str:
         return "user: {} | {} | at: {}".format(self.username, self.room, self.createdAt)
