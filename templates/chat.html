@@ -1,0 +1,144 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Application</title>
+    <link rel="stylesheet" href={% static '/css/style.css' %}>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static '/js/autosize.js'%}"></script>
+</head>
+<body>
+    <!-- Chat Box -->
+    <div class="chat-container">
+        <div class="message-container">
+                <div class="d-flex flex-row justify-content-between p-3 mb-2 adiv text-white">
+                <span class="pb-3">{{username}}</span>
+                <span class="pb-3">Live Chat</span>
+                <span class="pb-3">Room Id: {{roomname}}</span>
+                </div>
+            
+            <!-- <div class="d-flex flex-row p-3"> <img src="https://img.icons8.com/color/48/000000/circled-user-female-skin-type-7.png" width="30" height="30">
+                <div class="myvideo ml-2"><img src="https://imgur.com/GOxU1jx.png" width="200"></div>
+            </div> -->
+            <div id="chat-box">
+                <!-- <div class="d-flex flex-row ml-2 actual-message-left">
+                    <img src="https://img.icons8.com/color/48/000000/circled-user-female-skin-type-7.png" width="30" height="30">
+                    <div class="d-flex flex-column p-2">
+                        <div class="chat ml-2 p-3">Hey</div>
+                        <div class="mt-1 ml-3 actual-time-left">08:00 PM</div>
+                    </div>
+                    
+                </div>
+                <div class="d-flex flex-row mr-2 actual-message-right">
+                    <div class="d-flex flex-column p-2">
+                        <div class="bg-white mr-2 p-3">Hello</div>
+                        <div class="mt-1 mr-3 actual-time-right">08:00 PM</div>
+                    </div>
+                    <img src="https://img.icons8.com/color/48/000000/circled-user-male-skin-type-7.png" width="30" height="30">
+                </div> -->
+            </div>
+
+        </div>
+        <!-- Message Box -->
+    
+                <form id="message-form">
+            <input type="hidden" id="roomname" value="{{roomname}}"/>
+            <input type="hidden" id="username" value="{{username}}"/>
+            <div class="button-container">
+                <div>
+                    <textarea id="message" class="form-control" rows="1" placeholder="Type your message..."></textarea>
+                </div>
+                <div id="submit-btn"><button type="submit">Send</button></div>
+            </div>
+        </form>
+    </div>
+
+    
+
+</body>
+
+<script>
+    autosize(document.querySelectorAll('textarea'));
+    {% comment %} document.getElementById('submit-btn').style.display = 'none'
+    $("#id_of_textbox").keyup(function(event) {
+    if (event.keyCode === 13) {
+        let message = $("#message").val()
+        if(message != '') $("#id_of_button").click();
+    }
+}); {% endcomment %}
+</script>
+<script>
+
+
+
+
+
+    $(document).on("submit", "#message-form", function(e) {
+        e.preventDefault()
+
+        let message = $("#message").val()
+        if(message != ""){
+            window.scrollTo(0,document.querySelector("#chat-box").scrollHeight)
+            $.ajax({
+            type:"POST",
+            url:"/sendmessage",
+            data:{
+                username:$("#username").val(),
+                roomname:$("#roomname").val(),
+                message:message,
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            }
+            });    
+        }
+        document.getElementById('message').value = ""
+    });
+
+</script>
+
+<script>
+
+    setInterval(function (params) {
+        $.ajax({
+            type:'GET',
+            url:'/getmessage/{{roomname}}',
+            success:function(response){
+                $('#chat-box').empty()
+                let username = $("#username").val()
+                for(var key in response.messages){
+                    if(response.messages[key].username === username){
+                         
+                        let right_chat = `<div class="d-flex flex-row mr-2 actual-message-right">
+                        <div class="d-flex flex-column p-2">
+                            <div class="bg-white mr-2 p-3">${response.messages[key].message}</div>
+                            <div class="mt-1 mr-3 actual-time-right">${response.messages[key].createdAt}</div>
+                        </div>
+                        <img src="https://ui-avatars.com/api/?background=random&name=${username}&rounded=true&bold=true" width="30" height="30">
+                        </div>`
+                        $('#chat-box').append(right_chat)
+                    
+                    }else{
+                        let other_username = response.messages[key].username
+                        let left_chat = `<div class="d-flex flex-row ml-2 actual-message-left">
+                <img src="https://ui-avatars.com/api/?background=random&name=${other_username}&rounded=true&bold=true" width="30" height="30">
+                <div class="d-flex flex-column p-2">
+                    <div class="chat ml-2 p-3">${response.messages[key].message}</div>
+                    <div class="mt-1 ml-3 actual-time-left">${response.messages[key].createdAt}</div>
+                </div>
+                
+            </div>`
+            $('#chat-box').append(left_chat)
+                    }
+                }
+            }
+        })
+
+    }, 1000)
+</script>
+
+</html>

@@ -1,0 +1,99 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Application</title>
+    <link rel="stylesheet" href={% static '/css/style.css' %}>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static '/js/autosize.js'%}"></script>
+</head>
+<body>
+    <div >
+        <div class="card-index">
+            <div class="p-3 adiv text-white "><span>Chat Room</span></div>
+        </div>
+    </div>
+    <form method='POST' action="checkroom" id="create-room-form">
+        {% csrf_token %}
+        <div class="m-2">
+            <input id="roomid" class='p-2 mb-2' type="text" placeholder="Room Id" name="roomid"/>
+            <input id="username" class='p-2 ' type="text" placeholder="Username" name="username"/>
+            <p>Username: No space in between</p>
+        </div>
+        <div class="m-2">
+            <button type="submit" class='p-2 mb-2'>Create Room</button>
+            <!-- <button type="submit" class='p-2'>Join Room</button> -->
+            <button id="join-btn" type="button" class='p-2'>Join Room</button>
+        </div>
+    </form>
+</body>
+
+
+
+<script>
+
+    $('#join-btn').click(function(params) {
+
+        let roomid = $('#roomid').val()
+        let username = $('#username').val()
+        if(username === '') alert("Username required!!")
+        else if(roomid === ''){
+            alert("Room id required!!")
+        }else{
+            $.ajax({
+            type:'GET',
+            url:`/roomexist/${roomid}`,
+            success:function(response){
+                let isRoomExist = response.isRoomExist
+                if(isRoomExist){
+                    window.location.href = `${roomid}/?username=${username}`;
+                }else{
+                    alert("Room Doesn't Exist")
+                }
+            },
+        })
+        }
+    })
+    
+
+</script>
+
+<!-- <script>
+    $(document).on("submit", "#create-room-form", function(event){
+        // event.preventDefault()
+        let roomid = $("#roomid").val()
+        let username = $("#username").val()
+        console.log(roomid, username)
+
+        if(roomid =="" && username ==""){
+            alert("Both fields required")
+        }else if(roomid == ""){
+            alert("Room id required!!")
+        }else if(username == ""){
+            alert("Username required!!")
+        }else{
+            $.ajax({
+                type:'POST',
+                url:'checkroom',
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                data:{
+                    "roomid":roomid,
+                    "username":username
+                }
+            })
+        }
+
+    })
+</script> -->
+
+
+
+
+</html>
