@@ -11,11 +11,11 @@ class Room(models.Model):
         return "Room Id: {}".format(self.name)
 
 class Message(models.Model):
-    username = models.CharField(max_length=50)
+    username = models.CharField(max_length=20)
     room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='messages')
     message = models.TextField(max_length=255)
-    date = models.CharField(max_length=20, blank=True, default=datetime.now().strftime('%d/%B/%Y'))
-    createdAt = models.CharField(max_length=10, blank=True, default=datetime.now().strftime('%I:%M %p'))
+    date = models.CharField(max_length=13, blank=True, default=datetime.now().strftime('%d/%B/%Y'))
+    createdAt = models.CharField(max_length=13, blank=True, default=datetime.now().strftime('%I:%M %p'))
 
     def __str__(self) -> str:
         return "user: {} | {} | at: {}".format(self.username, self.room, self.createdAt)
