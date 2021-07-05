@@ -13,7 +13,7 @@ class Room(models.Model):
 class Message(models.Model):
     username = models.CharField(max_length=50)
     room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='messages')
-    message = models.TextField(max_length=500)
+    message = models.TextField(max_length=255)
     date = models.CharField(max_length=20, blank=True, default=datetime.now().strftime('%d/%B/%Y'))
     createdAt = models.CharField(max_length=10, blank=True, default=datetime.now().strftime('%I:%M %p'))
 
