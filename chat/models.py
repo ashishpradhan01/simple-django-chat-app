@@ -5,7 +5,7 @@ from django.utils import timezone
 
 class Room(models.Model):
     name = models.CharField(max_length=20)
-    datetime = models.CharField(max_length=150,blank=True, default=timezone.now())
+    datetime = models.DateTimeField(blank=True, default=timezone.now())
 
     def __str__(self) -> str:
         return "Room Id: {}".format(self.name)
@@ -14,8 +14,8 @@ class Message(models.Model):
     username = models.CharField(max_length=20)
     room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='messages')
     message = models.TextField()
-    date = models.CharField(max_length=150, blank=True, default=timezone.now())
-    createdAt = models.CharField(max_length=150, blank=True, default=str(datetime.now().strftime('%I:%M %p')))
+    date = models.DateTimeField(blank=True, default=timezone.now())
+    createdAt = models.TimeField(blank=True, default=datetime.now().strftime('%I:%M %p'))
 
     def __str__(self) -> str:
         return "user: {} | {} | at: {}".format(self.username, self.room, self.createdAt)
